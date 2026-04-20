@@ -395,32 +395,61 @@ const ViewAbout = ({ setView }) => (
     <section className="pt-40 relative">
       <div className="absolute top-0 right-[20%] w-[500px] h-[500px] bg-[#c9a96e]/10 blur-[120px] rounded-full pointer-events-none -z-10" />
       <FadeIn>
-        <SectionLabel>About AVLANCE</SectionLabel>
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.1] mb-8 max-w-4xl">
-          We exist because your vision deserves more than a one-time project.
-        </h1>
-        <div className="text-lg text-neutral-400 max-w-2xl leading-relaxed space-y-6">
-          <p>Most agencies build something, hand it over, and move on. You're left managing updates, chasing support, and piecing together multiple vendors for every new need. We built AVLANCE because we believed there was a better way.</p>
-          <p className="text-white font-medium">A single, reliable digital partner. One team with every skill you'll ever need. And a commitment that doesn't end at launch.</p>
-        </div>
+        <SectionLabel>About Us</SectionLabel>
       </FadeIn>
-    </section>
+      <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+        {/* why-left */}
+        <div className="flex flex-col">
+          <FadeIn>
+            <h2 className="font-garamond text-4xl sm:text-5xl lg:text-[3.2rem] font-light leading-[1.3] mb-8">
+              <em className="italic text-[#c9a96e]">Independent structure.</em><br />
+              Direct collaboration.<br />
+              Exceptional results.
+            </h2>
+          </FadeIn>
+          <FadeIn delay={100}>
+            <p className="text-sm sm:text-base leading-[1.9] text-neutral-300 mb-12">
+              We are AVLANCE, a dedicated freelance studio passionate about building impactful digital experiences. We partner directly with you to understand your needs, offering the expertise of an agency with the agility and personal commitment of independent freelancers. Reach out, and let's craft something amazing together.
+            </p>
+          </FadeIn>
+          <FadeIn delay={200}>
+            <div className="grid grid-cols-3 gap-8 pt-12 border-t border-neutral-800">
+              <div>
+                <div className="font-garamond text-4xl sm:text-5xl font-light text-[#c9a96e] leading-none mb-2">100%</div>
+                <div className="text-[0.72rem] tracking-[0.15em] uppercase text-neutral-300">Freelance Dedication</div>
+              </div>
+              <div>
+                <div className="font-garamond text-4xl sm:text-5xl font-light text-[#c9a96e] leading-none mb-2">∞</div>
+                <div className="text-[0.72rem] tracking-[0.15em] uppercase text-neutral-300">Creative Vision</div>
+              </div>
+              <div>
+                <div className="font-garamond text-4xl sm:text-5xl font-light text-[#c9a96e] leading-none mb-2">1:1</div>
+                <div className="text-[0.72rem] tracking-[0.15em] uppercase text-neutral-300">Direct Communication</div>
+              </div>
+            </div>
+          </FadeIn>
+        </div>
 
-    <section className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-      <FadeIn>
-        <SectionLabel>Our Story</SectionLabel>
-        <h2 className="text-3xl sm:text-4xl font-medium tracking-tight mb-8">The gap we decided to fill</h2>
-      </FadeIn>
-      <FadeIn delay={200}>
-        <div className="text-sm sm:text-base text-neutral-400 leading-relaxed space-y-6">
-          <p>We looked at the digital services landscape and noticed the same frustrations coming up again and again — businesses bouncing between agencies, projects going stale after delivery, and no one taking ownership beyond the invoice.</p>
-          <blockquote className="pl-6 border-l-2 border-[#c9a96e] py-2 my-8 text-xl text-[#c9a96e] font-serif italic">
-            "What if one team could handle everything, move fast, and actually stay?"
-          </blockquote>
-          <p>That question became AVLANCE. We assembled a team of specialists — designers, developers, marketers, automation engineers, and creative strategists — and built something rare: a full-service digital agency that treats every client relationship as a long-term partnership.</p>
-          <p>We're new, and we're proud of it. We don't carry old habits or outdated processes. We carry fresh thinking, dedicated specialists, and a genuine hunger to prove ourselves through the quality of our work.</p>
+        {/* why-right */}
+        <div className="flex flex-col">
+          {[
+            { num: '—01', title: 'Who We Are', text: 'We are independent professionals specializing in web development, design, and digital strategy. Freelancing allows us to handpick the best solutions for you.' },
+            { num: '—02', title: 'Direct & Personal', text: 'No account managers or middlemen. You talk directly with the people doing the work, ensuring your vision is understood and executed perfectly.' },
+            { num: '—03', title: 'Flexible & Agile', text: 'As freelancers, we adapt to your timeline and specific needs effortlessly, free from the rigid structures of large agencies.' },
+            { num: '—04', title: 'Our Commitment', text: 'Every project is personal. We treat your business as our own, guaranteeing a quality-first approach that delivers real results.' },
+          ].map((item, i) => (
+            <FadeIn key={item.num} delay={i * 100}>
+              <div className="py-8 border-b border-neutral-800 first:border-t grid grid-cols-[40px_1fr] md:grid-cols-[60px_1fr] gap-6 items-start hover:pl-3 transition-all duration-400 cursor-default">
+                <span className="font-mono text-xs text-[#c9a96e] opacity-60 mt-1">{item.num}</span>
+                <div>
+                  <h4 className="text-[1.1rem] font-medium font-sans uppercase tracking-[0.1em] mb-2 text-white" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{item.title}</h4>
+                  <p className="text-sm text-neutral-400 leading-[1.8]">{item.text}</p>
+                </div>
+              </div>
+            </FadeIn>
+          ))}
         </div>
-      </FadeIn>
+      </div>
     </section>
 
     <section>
@@ -487,6 +516,36 @@ const ViewAbout = ({ setView }) => (
 
 const ViewContact = ({ setView }) => {
   const [openFaq, setOpenFaq] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState('idle'); // idle | success | error
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus('idle');
+
+    const formData = new FormData(e.target);
+    // Add your Web3Forms access key here
+    formData.append("access_key", "YOUR_ACCESS_KEY_HERE");
+
+    try {
+      const res = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitStatus('success');
+        e.target.reset(); // clear form
+      } else {
+        setSubmitStatus('error');
+      }
+    } catch (err) {
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-20 sm:gap-32 pb-20">
@@ -521,33 +580,43 @@ const ViewContact = ({ setView }) => {
         <div className="lg:col-span-7">
           <FadeIn>
             <h2 className="text-2xl sm:text-3xl font-medium mb-8">Tell us about your project</h2>
-            <form className="flex flex-col gap-8" onSubmit={(e) => e.preventDefault()}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+            {submitStatus === 'success' ? (
+              <div className="bg-[#c9a96e]/10 border border-[#c9a96e]/30 rounded-2xl p-8 text-center max-w-2xl">
+                <div className="w-16 h-16 bg-[#c9a96e]/20 rounded-full flex items-center justify-center mx-auto mb-6 text-[#c9a96e]">
+                  <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>
+                </div>
+                <h3 className="text-2xl font-medium text-white mb-3">Enquiry Sent Successfully</h3>
+                <p className="text-neutral-400">Thank you for reaching out. A specialist from our team will review your details and get back to you within 24 hours.</p>
+                <button onClick={() => setSubmitStatus('idle')} className="mt-8 text-sm text-[#c9a96e] hover:text-white transition-colors">Send another enquiry</button>
+              </div>
+            ) : (
+              <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="relative group">
-                  <input type="text" id="name" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Name" />
+                  <input type="text" name="name" id="name" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Name" />
                   <label htmlFor="name" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Your name *</label>
                 </div>
                 <div className="relative group">
-                  <input type="text" id="company" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Company" />
+                  <input type="text" name="company" id="company" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Company" />
                   <label htmlFor="company" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Company / Business name</label>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
                 <div className="relative group">
-                  <input type="email" id="email" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Email" />
+                  <input type="email" name="email" id="email" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Email" />
                   <label htmlFor="email" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Email address *</label>
                 </div>
                 <div className="relative group">
-                  <input type="tel" id="phone" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Phone" />
+                  <input type="tel" name="phone" id="phone" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Phone" />
                   <label htmlFor="phone" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Phone / WhatsApp</label>
                 </div>
               </div>
 
               <div className="relative group mt-2">
-                <select defaultValue="" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors appearance-none cursor-pointer">
+                <select name="service_interest" required defaultValue="" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors appearance-none cursor-pointer">
                   <option value="" disabled className="text-neutral-900">Select a service...</option>
-                  {servicesData.map(s => <option key={s.id} value={s.id} className="text-black">{s.title}</option>)}
+                  {servicesData.map(s => <option key={s.id} value={s.title} className="text-black">{s.title}</option>)}
                 </select>
                 <div className="absolute right-0 top-3.5 pointer-events-none text-neutral-500"><ChevronRight className="w-4 h-4 rotate-90" /></div>
                 <label className="absolute left-0 -top-3.5 text-xs text-neutral-500 group-focus-within:text-[#c9a96e] transition-colors">Service(s) you're interested in *</label>
@@ -555,28 +624,45 @@ const ViewContact = ({ setView }) => {
               </div>
 
               <div className="relative group mt-2">
-                <select defaultValue="" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors appearance-none cursor-pointer">
+                <select name="budget_range" defaultValue="" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors appearance-none cursor-pointer">
                   <option value="" disabled className="text-neutral-900">Select a budget range...</option>
-                  <option value="1" className="text-black">Under $500</option>
-                  <option value="2" className="text-black">$500 – $2,000</option>
-                  <option value="3" className="text-black">$2,000 – $5,000</option>
-                  <option value="4" className="text-black">$5,000+</option>
-                  <option value="5" className="text-black">Not sure yet</option>
+                  <option value="Under $500" className="text-black">Under $500</option>
+                  <option value="$500 - $2,000" className="text-black">$500 – $2,000</option>
+                  <option value="$2,000 - $5,000" className="text-black">$2,000 – $5,000</option>
+                  <option value="$5,000+" className="text-black">$5,000+</option>
+                  <option value="Not sure yet" className="text-black">Not sure yet</option>
                 </select>
                 <div className="absolute right-0 top-3.5 pointer-events-none text-neutral-500"><ChevronRight className="w-4 h-4 rotate-90" /></div>
                 <label className="absolute left-0 -top-3.5 text-xs text-neutral-500 group-focus-within:text-[#c9a96e] transition-colors">Estimated budget range</label>
               </div>
 
               <div className="relative group mt-2">
-                <textarea id="message" rows="4" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent resize-none" placeholder="Message"></textarea>
+                <textarea name="message" id="message" rows="4" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent resize-none" placeholder="Message"></textarea>
                 <label htmlFor="message" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Tell us about your project *</label>
               </div>
 
-              <button className="bg-white text-black py-4 px-8 rounded-full text-sm font-medium hover:bg-[#c9a96e] transition-colors mt-4 w-full sm:w-auto self-start">
-                Send My Enquiry →
+              {submitStatus === 'error' && (
+                <p className="text-red-400 text-sm mt-2">Something went wrong. Please try again or email us directly.</p>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="bg-white text-black py-4 px-8 rounded-full text-sm font-medium hover:bg-[#c9a96e] transition-colors mt-4 w-full sm:w-auto self-start disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center gap-2">
+                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    Sending...
+                  </span>
+                ) : 'Send My Enquiry →'}
               </button>
               <p className="text-[11px] text-neutral-600 text-center sm:text-left">We'll respond within 24 hours. Your information is kept private.</p>
             </form>
+            )}
           </FadeIn>
         </div>
 
@@ -637,13 +723,13 @@ const Preloader = ({ onComplete }) => {
   const [phase, setPhase] = useState('visible'); // visible -> sliding -> done
 
   useEffect(() => {
-    // Phase 1: Logo clip-path reveal + line animation plays for 4.8s
-    const slideTimer = setTimeout(() => setPhase('sliding'), 4800);
+    // Phase 1: Logo clip-path reveal + line animation plays for 5.0s
+    const slideTimer = setTimeout(() => setPhase('sliding'), 5000);
     // Phase 2: Curtain slides up (1.6s transition), then remove from DOM
     const doneTimer = setTimeout(() => {
       setPhase('done');
       onComplete();
-    }, 6400);
+    }, 6600);
     return () => {
       clearTimeout(slideTimer);
       clearTimeout(doneTimer);
@@ -651,6 +737,25 @@ const Preloader = ({ onComplete }) => {
   }, [onComplete]);
 
   if (phase === 'done') return null;
+
+  const dustParticles = React.useMemo(() => [...Array(30)].map((_, i) => (
+    <div
+      key={i}
+      style={{
+        position: 'absolute',
+        bottom: '-10vh',
+        left: `${Math.random() * 100}%`,
+        width: `${Math.random() * 4 + 1}px`,
+        height: `${Math.random() * 4 + 1}px`,
+        background: '#c9a96e',
+        borderRadius: '50%',
+        boxShadow: '0 0 10px #c9a96e',
+        animation: `floatUp ${3 + Math.random() * 4}s linear ${Math.random() * 3}s infinite`,
+        willChange: 'transform, opacity',
+        opacity: 0
+      }}
+    />
+  )), []);
 
   return (
     <>
@@ -695,26 +800,15 @@ const Preloader = ({ onComplete }) => {
             filter: brightness(2) blur(10px);
           }
         }
-        @keyframes lineGrow {
-          0% {
-            height: 0;
-            opacity: 1;
-            transform: translateY(0);
-          }
-          50% {
-            height: 60px;
-            opacity: 1;
-            transform: translateY(0);
-          }
-          100% {
-            height: 60px;
-            opacity: 0;
-            transform: translateY(30px);
-          }
+        @keyframes floatUp {
+          0% { transform: translateY(0) scale(0.5); opacity: 0; }
+          20% { opacity: 0.6; }
+          80% { opacity: 0.8; transform: translateY(-70vh) scale(1.5); }
+          100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
         }
       `}</style>
       <div
-        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center"
+        className="fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden"
         style={{
           background: 'radial-gradient(circle at center, #111110 0%, #080808 100%)',
           transition: 'transform 1.6s cubic-bezier(0.8, 0, 0.2, 1), opacity 1.6s ease',
@@ -723,22 +817,17 @@ const Preloader = ({ onComplete }) => {
           pointerEvents: phase === 'sliding' ? 'none' : 'auto',
         }}
       >
-        <div className="flex flex-col items-center" style={{ gap: '40px' }}>
+        <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
+          {dustParticles}
+        </div>
+        <div className="flex flex-col items-center relative z-10">
           <img
             src="./Logo.png"
             alt="AVLANCE"
             style={{
               height: '350px',
-              animation: 'fillProgress 3.6s cubic-bezier(0.65, 0, 0.35, 1) forwards, logoDive 1s 3.8s cubic-bezier(0.4, 0, 0.2, 1) forwards',
-            }}
-          />
-          <div
-            style={{
-              width: '1px',
-              height: '0',
-              background: '#c9a96e',
-              boxShadow: '0 0 15px rgba(201, 169, 110, 0.6)',
-              animation: 'lineGrow 2s 1s cubic-bezier(0.8, 0, 0.2, 1) forwards',
+              animation: 'fillProgress 4s cubic-bezier(0.65, 0, 0.35, 1) forwards, logoDive 0.8s 4.2s cubic-bezier(0.4, 0, 0.2, 1) forwards',
+              willChange: 'transform, filter, clip-path',
             }}
           />
         </div>
