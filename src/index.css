@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+/* Garamond font utility — loaded via <head> in index.html */
+.font-garamond {
+  font-family: 'Cormorant Garamond', serif;
+}
