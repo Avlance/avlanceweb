@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowRight, ArrowUpRight, Plus, Minus, Mail, Phone, MessageCircle, Globe, ChevronRight } from 'lucide-react';
 
 // --- DATA EXTRACTION & STRUCTURE --- //
@@ -173,7 +173,7 @@ const ViewHome = ({ setView }) => (
           </p>
           <div className="flex flex-wrap items-center gap-4">
             <ButtonPrimary onClick={() => setView('contact')}>
-              Start Your Project <ArrowRight className="w-4 h-4" />
+              Let's Build It <ArrowRight className="w-4 h-4" />
             </ButtonPrimary>
             <ButtonGhost onClick={() => setView('services')}>
               Explore Capabilities
@@ -293,7 +293,7 @@ const ViewHome = ({ setView }) => (
           <h2 className="text-3xl sm:text-5xl font-medium tracking-tight mb-4 relative z-10">Ready to build something great?</h2>
           <p className="text-neutral-400 text-lg max-w-xl mx-auto mb-10 relative z-10">Tell us your vision. We'll handle everything — from first pixel to lifetime support.</p>
           <div className="flex flex-wrap justify-center gap-4 relative z-10">
-            <ButtonPrimary onClick={() => setView('contact')}>Start Your Project</ButtonPrimary>
+            <ButtonPrimary onClick={() => setView('contact')}>Let's Build It</ButtonPrimary>
             <ButtonGhost onClick={() => setView('contact')}>Contact Us Directly</ButtonGhost>
           </div>
           <p className="text-xs text-[#c9a96e]/70 mt-6 relative z-10">We respond within 24 hours. Available globally.</p>
@@ -514,6 +514,62 @@ const ViewAbout = ({ setView }) => (
   </div>
 );
 
+const CustomSelect = ({ name, required, options, placeholder, label, hint }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState("");
+
+  const dropdownRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  return (
+    <div className="relative group mt-2" ref={dropdownRef}>
+      <input type="hidden" name={name} value={selected} required={required} />
+      
+      <div 
+        className={`w-full bg-transparent border-b py-3 text-sm flex justify-between items-center cursor-pointer transition-colors ${selected ? 'text-white' : 'text-neutral-500'} ${isOpen ? 'border-[#c9a96e]' : 'border-neutral-800'}`}
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <span>{selected ? options.find(o => o.value === selected)?.label : placeholder}</span>
+        <div className={`text-neutral-500 transition-transform duration-300 ${isOpen ? '-rotate-90' : 'rotate-90'}`}>
+          <ChevronRight className="w-4 h-4" />
+        </div>
+      </div>
+      
+      <label className={`absolute left-0 -top-3.5 text-xs transition-colors ${isOpen || selected ? 'text-[#c9a96e]' : 'text-neutral-500'}`}>
+        {label} {required && '*'}
+      </label>
+      
+      {hint && <p className="text-[10px] text-neutral-600 mt-2 italic">{hint}</p>}
+
+      <div className={`absolute left-0 top-full mt-2 w-full bg-[#0a0a0a] border border-neutral-800 rounded-xl overflow-hidden shadow-2xl z-50 transition-all duration-300 origin-top ${isOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-95 pointer-events-none'}`}>
+        <div className="max-h-60 overflow-y-auto">
+          {options.map((opt, i) => (
+            <div 
+              key={i} 
+              className={`px-4 py-3 text-sm cursor-pointer transition-colors hover:bg-neutral-800/50 ${selected === opt.value ? 'text-[#c9a96e] bg-[#c9a96e]/10' : 'text-neutral-300'}`}
+              onClick={() => {
+                setSelected(opt.value);
+                setIsOpen(false);
+              }}
+            >
+              {opt.label}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 const ViewContact = ({ setView }) => {
   const [openFaq, setOpenFaq] = useState(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -592,76 +648,76 @@ const ViewContact = ({ setView }) => {
             ) : (
               <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="relative group">
-                  <input type="text" name="name" id="name" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Name" />
-                  <label htmlFor="name" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Your name *</label>
+                  <div className="relative group">
+                    <input type="text" name="name" id="name" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Name" />
+                    <label htmlFor="name" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Your name *</label>
+                  </div>
+                  <div className="relative group">
+                    <input type="text" name="company" id="company" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Company" />
+                    <label htmlFor="company" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Company / Business name</label>
+                  </div>
                 </div>
-                <div className="relative group">
-                  <input type="text" name="company" id="company" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Company" />
-                  <label htmlFor="company" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Company / Business name</label>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  <div className="relative group">
+                    <input type="email" name="email" id="email" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Email" />
+                    <label htmlFor="email" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Email address *</label>
+                  </div>
+                  <div className="relative group">
+                    <input type="tel" name="phone" id="phone" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Phone" />
+                    <label htmlFor="phone" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Phone / WhatsApp</label>
+                  </div>
                 </div>
-              </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div className="relative group">
-                  <input type="email" name="email" id="email" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Email" />
-                  <label htmlFor="email" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Email address *</label>
+                <CustomSelect 
+                  name="service_interest"
+                  required={true}
+                  placeholder="Select a service..."
+                  label="Service(s) you're interested in"
+                  hint="Can't find what you need? Just describe it in the message below."
+                  options={servicesData.map(s => ({ value: s.title, label: s.title }))}
+                />
+
+                <CustomSelect 
+                  name="budget_range"
+                  required={false}
+                  placeholder="Select a budget range..."
+                  label="Estimated budget range"
+                  options={[
+                    { value: "Under $500", label: "Under $500" },
+                    { value: "$500 - $2,000", label: "$500 – $2,000" },
+                    { value: "$2,000 - $5,000", label: "$2,000 – $5,000" },
+                    { value: "$5,000+", label: "$5,000+" },
+                    { value: "Not sure yet", label: "Not sure yet" }
+                  ]}
+                />
+
+                <div className="relative group mt-2">
+                  <textarea name="message" id="message" rows="4" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent resize-none" placeholder="Message"></textarea>
+                  <label htmlFor="message" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Tell us about your project *</label>
                 </div>
-                <div className="relative group">
-                  <input type="tel" name="phone" id="phone" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent" placeholder="Phone" />
-                  <label htmlFor="phone" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Phone / WhatsApp</label>
-                </div>
-              </div>
 
-              <div className="relative group mt-2">
-                <select name="service_interest" required defaultValue="" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors appearance-none cursor-pointer">
-                  <option value="" disabled className="text-neutral-900">Select a service...</option>
-                  {servicesData.map(s => <option key={s.id} value={s.title} className="text-black">{s.title}</option>)}
-                </select>
-                <div className="absolute right-0 top-3.5 pointer-events-none text-neutral-500"><ChevronRight className="w-4 h-4 rotate-90" /></div>
-                <label className="absolute left-0 -top-3.5 text-xs text-neutral-500 group-focus-within:text-[#c9a96e] transition-colors">Service(s) you're interested in *</label>
-                <p className="text-[10px] text-neutral-600 mt-2 italic">Can't find what you need? Just describe it in the message below.</p>
-              </div>
+                {submitStatus === 'error' && (
+                  <p className="text-red-400 text-sm mt-2">Something went wrong. Please try again or email us directly.</p>
+                )}
 
-              <div className="relative group mt-2">
-                <select name="budget_range" defaultValue="" className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors appearance-none cursor-pointer">
-                  <option value="" disabled className="text-neutral-900">Select a budget range...</option>
-                  <option value="Under $500" className="text-black">Under $500</option>
-                  <option value="$500 - $2,000" className="text-black">$500 – $2,000</option>
-                  <option value="$2,000 - $5,000" className="text-black">$2,000 – $5,000</option>
-                  <option value="$5,000+" className="text-black">$5,000+</option>
-                  <option value="Not sure yet" className="text-black">Not sure yet</option>
-                </select>
-                <div className="absolute right-0 top-3.5 pointer-events-none text-neutral-500"><ChevronRight className="w-4 h-4 rotate-90" /></div>
-                <label className="absolute left-0 -top-3.5 text-xs text-neutral-500 group-focus-within:text-[#c9a96e] transition-colors">Estimated budget range</label>
-              </div>
-
-              <div className="relative group mt-2">
-                <textarea name="message" id="message" rows="4" required className="w-full bg-transparent border-b border-neutral-800 py-3 text-sm text-white focus:outline-none focus:border-[#c9a96e] transition-colors peer placeholder-transparent resize-none" placeholder="Message"></textarea>
-                <label htmlFor="message" className="absolute left-0 -top-3.5 text-xs text-neutral-500 transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-3 peer-placeholder-shown:text-neutral-600 peer-focus:-top-3.5 peer-focus:text-xs peer-focus:text-[#c9a96e]">Tell us about your project *</label>
-              </div>
-
-              {submitStatus === 'error' && (
-                <p className="text-red-400 text-sm mt-2">Something went wrong. Please try again or email us directly.</p>
-              )}
-
-              <button 
-                type="submit" 
-                disabled={isSubmitting}
-                className="bg-white text-black py-4 px-8 rounded-full text-sm font-medium hover:bg-[#c9a96e] transition-colors mt-4 w-full sm:w-auto self-start disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
-              >
-                {isSubmitting ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
-                    </svg>
-                    Sending...
-                  </span>
-                ) : 'Send My Enquiry →'}
-              </button>
-              <p className="text-[11px] text-neutral-600 text-center sm:text-left">We'll respond within 24 hours. Your information is kept private.</p>
-            </form>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-white text-black py-4 px-8 rounded-full text-sm font-medium hover:bg-[#c9a96e] transition-colors mt-4 w-full sm:w-auto self-start disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center"
+                >
+                  {isSubmitting ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                      </svg>
+                      Sending...
+                    </span>
+                  ) : 'Send My Enquiry →'}
+                </button>
+                <p className="text-[11px] text-neutral-600 text-center sm:text-left">We'll respond within 24 hours. Your information is kept private.</p>
+              </form>
             )}
           </FadeIn>
         </div>
@@ -671,18 +727,24 @@ const ViewContact = ({ setView }) => {
             <h3 className="text-xl font-medium mb-6">Direct contact</h3>
             <div className="flex flex-col gap-4">
               {[
-                { icon: <Mail className="w-4 h-4" />, type: 'Email', val: 'hello@avlance.com', note: 'Best for detailed enquiries' },
-                { icon: <Phone className="w-4 h-4" />, type: 'Phone', val: '+91 XXXXX XXXXX', note: 'Mon–Sat, 9am–7pm IST' },
-                { icon: <MessageCircle className="w-4 h-4" />, type: 'WhatsApp', val: 'Quick message welcome', note: 'Fastest way to reach us' }
+                { icon: <Mail className="w-4 h-4" />, type: 'Email', val: 'office@avlance.studio', note: 'Best for detailed enquiries', href: 'mailto:office@avlance.studio' },
+                { icon: <Phone className="w-4 h-4" />, type: 'Phone', val: '+91 99947 39537', note: 'Mon–Sat, 9am–7pm IST', href: 'tel:+919994739537' },
+                { icon: <MessageCircle className="w-4 h-4" />, type: 'WhatsApp', val: '+91 99947 39537', note: 'Fastest way to reach us', href: 'https://wa.me/919994739537' }
               ].map((c, i) => (
-                <div key={i} className="flex items-center gap-4 p-5 rounded-2xl border border-neutral-800 hover:border-[#c9a96e]/40 transition-colors bg-neutral-900/30 group">
+                <a 
+                  key={i} 
+                  href={c.href}
+                  target={c.type === 'WhatsApp' ? "_blank" : undefined}
+                  rel={c.type === 'WhatsApp' ? "noopener noreferrer" : undefined}
+                  className="flex items-center gap-4 p-5 rounded-2xl border border-neutral-800 hover:border-[#c9a96e]/40 transition-colors bg-neutral-900/30 group cursor-pointer block"
+                >
                   <div className="w-10 h-10 rounded-full border border-[#c9a96e]/30 bg-[#c9a96e]/10 flex items-center justify-center text-[#c9a96e] group-hover:bg-[#c9a96e] group-hover:text-black transition-colors shrink-0">{c.icon}</div>
                   <div>
                     <p className="text-xs text-neutral-500 uppercase tracking-wider mb-1">{c.type}</p>
                     <p className="text-sm font-medium text-white mb-0.5">{c.val}</p>
                     <p className="text-[11px] text-neutral-600">{c.note}</p>
                   </div>
-                </div>
+                </a>
               ))}
             </div>
             <div className="mt-6 flex items-center gap-3 px-4 py-3 rounded-full border border-[#c9a96e]/30 bg-[#c9a96e]/5 text-xs text-[#c9a96e] w-max">
@@ -927,7 +989,7 @@ export default function App() {
                   : 'bg-transparent text-white border-transparent hover:text-[#c9a96e]'
                   }`}
               >
-                Start Project
+                Let's Build It
               </button>
             </div>
 
@@ -955,7 +1017,7 @@ export default function App() {
           </button>
         ))}
         <div className="mt-8">
-          <ButtonPrimary onClick={() => setView('contact')}>Start Your Project</ButtonPrimary>
+          <ButtonPrimary onClick={() => setView('contact')}>Let's Build It</ButtonPrimary>
         </div>
       </div>
 
