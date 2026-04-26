@@ -7,6 +7,7 @@ import ButtonPrimary from '../components/ButtonPrimary';
 import ButtonGhost from '../components/ButtonGhost';
 import servicesData from '../data/services';
 import testimonials from '../data/testimonials';
+import MarqueeStrip from '../components/Marquee';
 // import portfolioData from '../data/portfolio'; // Uncomment when Work page goes live
 
 // --- TESTIMONIALS CAROUSEL --- //
@@ -25,26 +26,21 @@ const TestimonialsSection = () => {
         </h2>
 
         <div className="relative">
-          {/* Main quote card */}
           <div className="bg-neutral-900/40 border border-[#c9a96e]/20 rounded-3xl p-8 sm:p-12 relative overflow-hidden min-h-[240px] flex flex-col justify-between">
             <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#c9a96e]/5 blur-[80px] rounded-full pointer-events-none" />
 
-            {/* Stars */}
             <div className="flex gap-1 mb-6">
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-[#c9a96e] text-[#c9a96e]" />
               ))}
             </div>
 
-            {/* Quote */}
             <blockquote className="text-lg sm:text-xl font-light leading-relaxed text-neutral-200 mb-8 relative z-10 max-w-4xl">
               "{t.quote}"
             </blockquote>
 
-            {/* Attribution */}
             <div className="flex items-center justify-between gap-4 flex-wrap">
               <div className="flex items-center gap-4">
-                {/* Avatar initials */}
                 <div className="w-12 h-12 rounded-full bg-[#c9a96e]/20 border border-[#c9a96e]/30 flex items-center justify-center text-[#c9a96e] text-sm font-semibold shrink-0">
                   {t.initials}
                 </div>
@@ -53,17 +49,13 @@ const TestimonialsSection = () => {
                   <p className="text-xs text-neutral-500">{t.role}, {t.company}</p>
                 </div>
               </div>
-
-              {/* Industry tag */}
               <span className="px-3 py-1.5 rounded-full border border-neutral-800 text-[11px] text-neutral-500 bg-neutral-900/50">
                 {t.industry}
               </span>
             </div>
           </div>
 
-          {/* Navigation */}
           <div className="flex items-center justify-between mt-6">
-            {/* Dot indicators */}
             <div className="flex gap-2">
               {testimonials.map((_, i) => (
                 <button
@@ -73,19 +65,11 @@ const TestimonialsSection = () => {
                 />
               ))}
             </div>
-
-            {/* Prev / Next */}
             <div className="flex gap-2">
-              <button
-                onClick={prev}
-                className="w-10 h-10 rounded-full border border-neutral-800 hover:border-[#c9a96e]/60 flex items-center justify-center text-neutral-400 hover:text-[#c9a96e] transition-all"
-              >
+              <button onClick={prev} className="w-10 h-10 rounded-full border border-neutral-800 hover:border-[#c9a96e]/60 flex items-center justify-center text-neutral-400 hover:text-[#c9a96e] transition-all">
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <button
-                onClick={next}
-                className="w-10 h-10 rounded-full border border-neutral-800 hover:border-[#c9a96e]/60 flex items-center justify-center text-neutral-400 hover:text-[#c9a96e] transition-all"
-              >
+              <button onClick={next} className="w-10 h-10 rounded-full border border-neutral-800 hover:border-[#c9a96e]/60 flex items-center justify-center text-neutral-400 hover:text-[#c9a96e] transition-all">
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
@@ -95,40 +79,6 @@ const TestimonialsSection = () => {
     </section>
   );
 };
-
-// --- WORK PREVIEW (hidden until portfolio is ready) ---
-// Uncomment this section and the portfolioData import when the Work page goes live.
-/*
-const WorkPreviewSection = () => (
-  <section>
-    <FadeIn>
-      <div className="flex items-end justify-between gap-6 mb-10 flex-wrap">
-        <div>
-          <SectionLabel>Selected Work</SectionLabel>
-          <h2 className="text-3xl sm:text-5xl font-medium tracking-tight">Work that speaks for itself.</h2>
-        </div>
-        <Link to="/work" className="text-sm text-[#c9a96e] hover:text-white transition-colors flex items-center gap-2 shrink-0">
-          View all projects <ArrowUpRight className="w-4 h-4" />
-        </Link>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        {portfolioData.slice(0, 3).map((project) => (
-          <Link key={project.id} to="/work"
-            className="group relative rounded-2xl overflow-hidden border border-neutral-800 hover:border-[#c9a96e]/50 transition-all duration-500 bg-black aspect-[4/3]">
-            <img src={project.img} alt={project.title} loading="lazy"
-              className="w-full h-full object-cover opacity-35 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
-            <div className="absolute bottom-0 left-0 right-0 p-5">
-              <p className="text-[10px] uppercase tracking-[0.15em] mb-1" style={{ color: project.color }}>{project.category}</p>
-              <h3 className="text-base font-medium text-white group-hover:text-[#c9a96e] transition-colors">{project.title}</h3>
-            </div>
-          </Link>
-        ))}
-      </div>
-    </FadeIn>
-  </section>
-);
-*/
 
 // --- HOME VIEW --- //
 const ViewHome = () => (
@@ -184,6 +134,13 @@ const ViewHome = () => (
         </div>
       </FadeIn>
     </section>
+
+    {/* Marquee — service capabilities strip */}
+    <div className="-mx-6 md:-mx-12">
+      <MarqueeStrip
+        items={['Web Design & Dev', 'Mobile Apps', 'ERP Solutions', 'Brand Identity', 'Digital Marketing', 'AI Automation', 'Video & Animation', 'Graphic Design', 'Lifetime Support', 'UI / UX Design']}
+      />
+    </div>
 
     {/* Testimonials */}
     <TestimonialsSection />

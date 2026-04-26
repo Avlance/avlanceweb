@@ -9,17 +9,13 @@ import ViewContact from './views/Contact';
 // import ViewWork from './views/Work'; // TODO: Uncomment when portfolio is ready to go live
 
 // --- SCROLL TO TOP ON ROUTE CHANGE --- //
-
 const ScrollToTop = () => {
   const { pathname } = useLocation();
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [pathname]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 };
 
 // --- NAV LINKS --- //
-
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/services', label: 'Services' },
@@ -29,7 +25,6 @@ const navLinks = [
 ];
 
 // --- MAIN APP --- //
-
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -42,24 +37,14 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
-    setMobileMenuOpen(false);
-  }, [location.pathname]);
+  useEffect(() => { setMobileMenuOpen(false); }, [location.pathname]);
 
-  // Prevent scroll during preloader
   useEffect(() => {
-    if (loading) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
+    document.body.style.overflow = loading ? 'hidden' : '';
     return () => { document.body.style.overflow = ''; };
   }, [loading]);
 
-  const handlePreloaderComplete = useCallback(() => {
-    setLoading(false);
-  }, []);
+  const handlePreloaderComplete = useCallback(() => setLoading(false), []);
 
   return (
     <div className="min-h-screen bg-[#050505] text-neutral-100 font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
@@ -75,7 +60,7 @@ export default function App() {
           : 'max-w-[1400px] px-0 py-2 bg-transparent border-transparent shadow-none'
           }`}>
 
-          {/* Left Logo */}
+          {/* Logo */}
           <div className="flex-1 flex justify-start">
             <Link to="/" className="flex items-center relative z-50 group">
               <img
@@ -86,7 +71,7 @@ export default function App() {
             </Link>
           </div>
 
-          {/* Center Nav Links */}
+          {/* Desktop Nav Links */}
           <div className={`hidden md:flex justify-center transition-all duration-[600ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] ${isScrolled ? 'gap-[20px]' : 'gap-[40px]'}`}>
             {navLinks.map(link => (
               <Link
@@ -95,12 +80,14 @@ export default function App() {
                 className={`text-[0.75rem] font-medium uppercase tracking-[0.15em] transition-colors hover:text-[#c9a96e] relative ${location.pathname === link.path ? 'text-[#c9a96e]' : 'text-white'}`}
               >
                 {link.label}
-                {location.pathname === link.path && <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#c9a96e] rounded-full" />}
+                {location.pathname === link.path && (
+                  <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#c9a96e] rounded-full" />
+                )}
               </Link>
             ))}
           </div>
 
-          {/* Right Button & Mobile Toggle */}
+          {/* Right CTA + Mobile Toggle */}
           <div className="flex-1 flex justify-end">
             <div className="hidden md:block">
               <Link
@@ -114,8 +101,10 @@ export default function App() {
               </Link>
             </div>
 
-            {/* Mobile Menu Toggle */}
-            <button className="md:hidden relative z-50 p-2 -mr-2 text-white hover:text-[#c9a96e] transition-colors" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            <button
+              className="md:hidden relative z-50 p-2 -mr-2 text-white hover:text-[#c9a96e] transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
               <div className="flex flex-col gap-1.5 w-6">
                 <span className={`h-px bg-current transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
                 <span className={`h-px bg-current transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
@@ -142,7 +131,7 @@ export default function App() {
         </div>
       </div>
 
-      {/* Main Content Area */}
+      {/* Main Content */}
       <main className="max-w-[1400px] mx-auto px-6 md:px-12 pt-12 min-h-[90vh]">
         <Routes>
           <Route path="/" element={<ViewHome />} />
@@ -160,12 +149,8 @@ export default function App() {
           <div className="flex flex-col md:flex-row justify-between items-start gap-10">
             <div className="max-w-md">
               <Link to="/">
-                <img
-                  src="./Logo.png"
-                  alt="AVLANCE"
-                  loading="lazy"
-                  className="h-[140px] md:h-[220px] object-contain mb-8 cursor-pointer hover:opacity-80 transition-opacity"
-                />
+                <img src="./Logo.png" alt="AVLANCE" loading="lazy"
+                  className="h-[140px] md:h-[220px] object-contain mb-8 cursor-pointer hover:opacity-80 transition-opacity" />
               </Link>
               <p className="text-sm text-neutral-500 leading-relaxed">
                 A single, reliable digital partner. One team with every skill you'll ever need. Built fast, built right, and supported for life.

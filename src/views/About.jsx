@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 import ButtonPrimary from '../components/ButtonPrimary';
+import MarqueeStrip from '../components/Marquee';
 
 const ViewAbout = () => (
   <div className="flex flex-col gap-24 sm:gap-40 pb-20">
@@ -65,6 +66,14 @@ const ViewAbout = () => (
         </div>
       </div>
     </section>
+
+    {/* Marquee — brand values & identity words */}
+    <div className="-mx-6 md:-mx-12">
+      <MarqueeStrip
+        items={['Independent Studio', 'Direct Collaboration', 'Quality First', 'Lifetime Support', 'Global Reach', 'Radical Transparency', 'Specialist Team', 'Agile & Flexible', 'Client-First Thinking', 'Results Driven']}
+        reverse={true}
+      />
+    </div>
 
     <section>
       <FadeIn>

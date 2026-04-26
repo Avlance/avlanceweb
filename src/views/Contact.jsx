@@ -3,6 +3,7 @@ import { Mail, Phone, MessageCircle, Globe, Plus, Minus } from 'lucide-react';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 import CustomSelect from '../components/CustomSelect';
+import MarqueeStrip from '../components/Marquee';
 import servicesData from '../data/services';
 import faqs from '../data/faqs';
 
@@ -66,6 +67,15 @@ const ViewContact = () => {
           </div>
         </FadeIn>
       </section>
+
+      {/* Marquee — trust signals relevant to getting in touch */}
+      <div className="-mx-6 md:-mx-12">
+        <MarqueeStrip
+          items={['24hr Response', 'No Obligation', 'Globally Available', 'Free Recommendation', 'Real Humans', 'Direct Communication', 'No Jargon', 'Transparent Pricing', 'Honest Advice', 'We Reply to Everyone']}
+          speed="fast"
+          reverse={true}
+        />
+      </div>
 
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-16">
         <div className="lg:col-span-7">

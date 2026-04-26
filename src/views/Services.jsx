@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 import ButtonPrimary from '../components/ButtonPrimary';
+import MarqueeStrip from '../components/Marquee';
 import servicesData from '../data/services';
 
 const ViewServices = () => (
@@ -19,6 +20,14 @@ const ViewServices = () => (
         </p>
       </FadeIn>
     </section>
+
+    {/* Marquee — scrolling index of every service */}
+    <div className="-mx-6 md:-mx-12">
+      <MarqueeStrip
+        items={servicesData.map(s => s.title)}
+        speed="slow"
+      />
+    </div>
 
     <section className="flex flex-col gap-6">
       {servicesData.map((s, index) => (
