@@ -6,79 +6,8 @@ import SectionLabel from '../components/SectionLabel';
 import ButtonPrimary from '../components/ButtonPrimary';
 import ButtonGhost from '../components/ButtonGhost';
 import servicesData from '../data/services';
-import testimonials from '../data/testimonials';
 import MarqueeStrip from '../components/Marquee';
 // import portfolioData from '../data/portfolio'; // Uncomment when Work page goes live
-
-// --- TESTIMONIALS CAROUSEL --- //
-const TestimonialsSection = () => {
-  const [active, setActive] = useState(0);
-  const prev = () => setActive(i => (i - 1 + testimonials.length) % testimonials.length);
-  const next = () => setActive(i => (i + 1) % testimonials.length);
-  const t = testimonials[active];
-
-  return (
-    <section>
-      <FadeIn>
-        <SectionLabel>Client Stories</SectionLabel>
-        <h2 className="text-3xl sm:text-5xl font-medium tracking-tight mb-12">
-          Don't take our word for it.
-        </h2>
-
-        <div className="relative">
-          <div className="bg-neutral-900/40 border border-[#c9a96e]/20 rounded-3xl p-8 sm:p-12 relative overflow-hidden min-h-[240px] flex flex-col justify-between">
-            <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-[#c9a96e]/5 blur-[80px] rounded-full pointer-events-none" />
-
-            <div className="flex gap-1 mb-6">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} className="w-4 h-4 fill-[#c9a96e] text-[#c9a96e]" />
-              ))}
-            </div>
-
-            <blockquote className="text-lg sm:text-xl font-light leading-relaxed text-neutral-200 mb-8 relative z-10 max-w-4xl">
-              "{t.quote}"
-            </blockquote>
-
-            <div className="flex items-center justify-between gap-4 flex-wrap">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-full bg-[#c9a96e]/20 border border-[#c9a96e]/30 flex items-center justify-center text-[#c9a96e] text-sm font-semibold shrink-0">
-                  {t.initials}
-                </div>
-                <div>
-                  <p className="text-sm font-medium text-white">{t.name}</p>
-                  <p className="text-xs text-neutral-500">{t.role}, {t.company}</p>
-                </div>
-              </div>
-              <span className="px-3 py-1.5 rounded-full border border-neutral-800 text-[11px] text-neutral-500 bg-neutral-900/50">
-                {t.industry}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between mt-6">
-            <div className="flex gap-2">
-              {testimonials.map((_, i) => (
-                <button
-                  key={i}
-                  onClick={() => setActive(i)}
-                  className={`rounded-full transition-all duration-300 ${i === active ? 'w-6 h-1.5 bg-[#c9a96e]' : 'w-1.5 h-1.5 bg-neutral-700 hover:bg-neutral-500'}`}
-                />
-              ))}
-            </div>
-            <div className="flex gap-2">
-              <button onClick={prev} className="w-10 h-10 rounded-full border border-neutral-800 hover:border-[#c9a96e]/60 flex items-center justify-center text-neutral-400 hover:text-[#c9a96e] transition-all">
-                <ChevronLeft className="w-4 h-4" />
-              </button>
-              <button onClick={next} className="w-10 h-10 rounded-full border border-neutral-800 hover:border-[#c9a96e]/60 flex items-center justify-center text-neutral-400 hover:text-[#c9a96e] transition-all">
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </FadeIn>
-    </section>
-  );
-};
 
 // --- HOME VIEW --- //
 const ViewHome = () => (
@@ -141,9 +70,6 @@ const ViewHome = () => (
         items={['Web Design & Dev', 'Mobile Apps', 'ERP Solutions', 'Brand Identity', 'Digital Marketing', 'AI Automation', 'Video & Animation', 'Graphic Design', 'Lifetime Support', 'UI / UX Design']}
       />
     </div>
-
-    {/* Testimonials */}
-    <TestimonialsSection />
 
     {/* USPs Breakdown */}
     <section className="grid grid-cols-1 lg:grid-cols-2 gap-16">
