@@ -17,12 +17,18 @@
 .marquee-left {
   display: flex;
   width: max-content;
-  animation: marquee-left 35s linear infinite;
+  /* duration is set via inline style prop on the element */
+  animation-name: marquee-left;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 .marquee-right {
   display: flex;
   width: max-content;
-  animation: marquee-right 35s linear infinite;
+  /* duration is set via inline style prop on the element */
+  animation-name: marquee-right;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }
 .marquee-left:hover,
 .marquee-right:hover {

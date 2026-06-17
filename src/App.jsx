@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Preloader from './components/Preloader';
 import ButtonPrimary from './components/ButtonPrimary';
@@ -37,7 +37,7 @@ export default function App() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  useEffect(() => { setMobileMenuOpen(false); }, [location.pathname]);
+  useLayoutEffect(() => { setMobileMenuOpen(false); }, [location.pathname]);
 
   useEffect(() => {
     document.body.style.overflow = loading ? 'hidden' : '';
@@ -64,7 +64,7 @@ export default function App() {
           <div className="flex-1 flex justify-start">
             <Link to="/" className="flex items-center relative z-50 group">
               <img
-                src="./Logo.png"
+                src="./Logo.webp"
                 alt="AVLANCE"
                 className={`object-contain origin-left transition-all duration-[600ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] group-hover:opacity-80 ${isScrolled ? 'h-[40px] md:h-[50px] scale-[3] -translate-x-4 translate-y-1' : 'h-[120px] md:h-[180px] scale-100 translate-x-0 translate-y-0'}`}
               />
@@ -149,7 +149,7 @@ export default function App() {
           <div className="flex flex-col md:flex-row justify-between items-start gap-10">
             <div className="max-w-md">
               <Link to="/">
-                <img src="./Logo.png" alt="AVLANCE" loading="lazy"
+                <img src="./Logo.webp" alt="AVLANCE" loading="lazy"
                   className="h-[140px] md:h-[220px] object-contain mb-8 cursor-pointer hover:opacity-80 transition-opacity" />
               </Link>
               <p className="text-sm text-neutral-500 leading-relaxed">

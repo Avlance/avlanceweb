@@ -5,6 +5,15 @@ const FadeIn = ({ children, delay = 0 }) => {
   const domRef = useRef();
 
   useEffect(() => {
+    // Respect the user's OS-level "Prefer Reduced Motion" setting
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (prefersReduced) {
+      // Skip animation entirely — show content immediately
+      setIsVisible(true);
+      return;
+    }
+
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
@@ -23,7 +32,10 @@ const FadeIn = ({ children, delay = 0 }) => {
   }, [delay]);
 
   return (
-    <div ref={domRef} className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+    <div
+      ref={domRef}
+      className={`transition-all duration-1000 ease-out transform ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+    >
       {children}
     </div>
   );

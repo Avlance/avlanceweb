@@ -5,10 +5,17 @@ import SectionLabel from '../components/SectionLabel';
 import ButtonPrimary from '../components/ButtonPrimary';
 import MarqueeStrip from '../components/Marquee';
 import servicesData from '../data/services';
+import SEO from '../components/SEO';
 
-const ViewServices = () => (
-  <div className="flex flex-col gap-20 sm:gap-32 pb-20">
-    <section className="pt-40 relative">
+const ViewServices = () => {
+  return (
+    <div className="flex flex-col gap-20 sm:gap-32 pb-20">
+      <SEO 
+        title="Our Services — Web, Mobile, Brand & AI Automation"
+        description="Explore our full range of digital agency capabilities: custom web development, mobile applications, brand identity design, AI automation, ERP solutions, and lifetime support."
+        keywords="services, web design, app development, branding, AI automation, enterprise software"
+      />
+      <section className="pt-40 relative">
       <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#c9a96e]/10 blur-[100px] rounded-full pointer-events-none -z-10" />
       <FadeIn>
         <SectionLabel>Our Services</SectionLabel>
@@ -98,7 +105,8 @@ const ViewServices = () => (
         </div>
       </FadeIn>
     </section>
-  </div>
-);
+    </div>
+  );
+};
 
 export default ViewServices;

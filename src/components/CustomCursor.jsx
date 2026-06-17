@@ -6,6 +6,10 @@ const CustomCursor = () => {
   const [hovering, setHovering] = useState(false);
 
   useEffect(() => {
+    // Don't attach anything on touch-only devices (no fine pointer like a mouse)
+    const isTouchOnly = !window.matchMedia('(pointer: fine)').matches;
+    if (isTouchOnly) return;
+
     let mx = window.innerWidth / 2, my = window.innerHeight / 2;
     let rx = mx, ry = my;
     let rafId;
@@ -30,10 +34,10 @@ const CustomCursor = () => {
     };
 
     const onOver = (e) => {
-      if (e.target.closest('a, button, [role="button"], input, textarea, select')) setHovering(true);
+      if (e.target.closest('a, button, [role="button"], input, textarea, select, [role="combobox"]')) setHovering(true);
     };
     const onOut = (e) => {
-      if (e.target.closest('a, button, [role="button"], input, textarea, select')) setHovering(false);
+      if (e.target.closest('a, button, [role="button"], input, textarea, select, [role="combobox"]')) setHovering(false);
     };
 
     window.addEventListener('mousemove', onMove);

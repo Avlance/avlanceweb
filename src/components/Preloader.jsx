@@ -1,4 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+
+// Pre-generate stable particle data outside the component so Math.random()
+// is never called during render (fixes ESLint react-hooks/purity rule)
+const PARTICLE_DATA = [...Array(30)].map(() => ({
+  left: `${Math.random() * 100}%`,
+  width: `${Math.random() * 4 + 1}px`,
+  height: `${Math.random() * 4 + 1}px`,
+  animDuration: `${3 + Math.random() * 4}s`,
+  animDelay: `${Math.random() * 3}s`,
+}));
 
 const Preloader = ({ onComplete }) => {
   const [phase, setPhase] = useState('visible'); // visible -> sliding -> done
@@ -17,26 +27,28 @@ const Preloader = ({ onComplete }) => {
     };
   }, [onComplete]);
 
-  if (phase === 'done') return null;
+  // useMemo must be called before any early return (Rules of Hooks)
+  const dustParticles = useMemo(() =>
+    PARTICLE_DATA.map((p, i) => (
+      <div
+        key={i}
+        style={{
+          position: 'absolute',
+          bottom: '-10vh',
+          left: p.left,
+          width: p.width,
+          height: p.height,
+          background: '#c9a96e',
+          borderRadius: '50%',
+          boxShadow: '0 0 10px #c9a96e',
+          animation: `floatUp ${p.animDuration} linear ${p.animDelay} infinite`,
+          willChange: 'transform, opacity',
+          opacity: 0,
+        }}
+      />
+    )), []);
 
-  const dustParticles = React.useMemo(() => [...Array(30)].map((_, i) => (
-    <div
-      key={i}
-      style={{
-        position: 'absolute',
-        bottom: '-10vh',
-        left: `${Math.random() * 100}%`,
-        width: `${Math.random() * 4 + 1}px`,
-        height: `${Math.random() * 4 + 1}px`,
-        background: '#c9a96e',
-        borderRadius: '50%',
-        boxShadow: '0 0 10px #c9a96e',
-        animation: `floatUp ${3 + Math.random() * 4}s linear ${Math.random() * 3}s infinite`,
-        willChange: 'transform, opacity',
-        opacity: 0
-      }}
-    />
-  )), []);
+  if (phase === 'done') return null;
 
   return (
     <>
@@ -103,7 +115,7 @@ const Preloader = ({ onComplete }) => {
         </div>
         <div className="flex flex-col items-center relative z-10">
           <img
-            src="./Logo.png"
+            src="./Logo.webp"
             alt="AVLANCE"
             style={{
               height: '350px',

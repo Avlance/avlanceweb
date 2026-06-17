@@ -6,6 +6,7 @@ import CustomSelect from '../components/CustomSelect';
 import MarqueeStrip from '../components/Marquee';
 import servicesData from '../data/services';
 import faqs from '../data/faqs';
+import SEO from '../components/SEO';
 
 const ViewContact = () => {
   const [openFaq, setOpenFaq] = useState(null);
@@ -32,7 +33,7 @@ const ViewContact = () => {
       } else {
         setSubmitStatus('error');
       }
-    } catch (err) {
+    } catch {
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
@@ -41,6 +42,11 @@ const ViewContact = () => {
 
   return (
     <div className="flex flex-col gap-20 sm:gap-32 pb-20">
+      <SEO 
+        title="Contact Us — Start Your Project"
+        description="Get in touch with AVLANCE. Fill in our contact form, email us, or chat on WhatsApp. We respond within 24 hours with custom recommendations."
+        keywords="contact AVLANCE, hire digital agency, freelance web developers, get a quote"
+      />
       <section className="pt-40 relative">
         <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#c9a96e]/10 blur-[100px] rounded-full pointer-events-none -z-10" />
         <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[22vw] font-bold tracking-[0.1em] whitespace-nowrap pointer-events-none select-none" style={{ fontFamily: "'Barlow Condensed', sans-serif", color: 'rgba(255,255,255,0.015)' }}>AVLANCE</span>

@@ -4,10 +4,17 @@ import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 import ButtonPrimary from '../components/ButtonPrimary';
 import MarqueeStrip from '../components/Marquee';
+import SEO from '../components/SEO';
 
-const ViewAbout = () => (
-  <div className="flex flex-col gap-24 sm:gap-40 pb-20">
-    <section className="pt-40 relative">
+const ViewAbout = () => {
+  return (
+    <div className="flex flex-col gap-24 sm:gap-40 pb-20">
+      <SEO 
+        title="About Us — Independent Freelance Studio & Digital Partner"
+        description="Learn more about AVLANCE. We are a dedicated freelance studio partnering directly with businesses to build high-performing websites, mobile apps, automation, and brand identities with lifetime maintenance."
+        keywords="about AVLANCE, digital agency, freelancers, web development team, app designers"
+      />
+      <section className="pt-40 relative">
       <div className="absolute top-0 right-[20%] w-[500px] h-[500px] bg-[#c9a96e]/10 blur-[120px] rounded-full pointer-events-none -z-10" />
       <FadeIn>
         <SectionLabel>About Us</SectionLabel>
@@ -134,7 +141,8 @@ const ViewAbout = () => (
         </div>
       </FadeIn>
     </section>
-  </div>
-);
+    </div>
+  );
+};
 
 export default ViewAbout;
