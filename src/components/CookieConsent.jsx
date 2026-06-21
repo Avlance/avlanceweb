@@ -6,7 +6,8 @@ export default function CookieConsent() {
 
   useEffect(() => {
     const consent = localStorage.getItem('avlance_cookie_consent');
-    if (!consent) {
+    const declined = sessionStorage.getItem('avlance_cookie_decline');
+    if (!consent && !declined) {
       const timer = setTimeout(() => setVisible(true), 1500);
       return () => clearTimeout(timer);
     }
@@ -16,6 +17,14 @@ export default function CookieConsent() {
     setClosing(true);
     setTimeout(() => {
       localStorage.setItem('avlance_cookie_consent', 'accepted');
+      setVisible(false);
+    }, 500); // Allow exit animation to finish
+  };
+
+  const handleDecline = () => {
+    setClosing(true);
+    setTimeout(() => {
+      sessionStorage.setItem('avlance_cookie_decline', 'declined');
       setVisible(false);
     }, 500); // Allow exit animation to finish
   };
@@ -39,7 +48,13 @@ export default function CookieConsent() {
             We use cookies to optimize site performance, analyze traffic, and personalize your experience. By clicking "Accept", you consent to our use of cookies.
           </p>
         </div>
-        <div className="flex justify-end items-center gap-4">
+        <div className="flex justify-end items-center gap-3">
+          <button 
+            onClick={handleDecline} 
+            className="text-[0.75rem] font-semibold uppercase tracking-[0.1em] text-neutral-400 hover:text-white px-4 py-2.5 rounded-full transition-all duration-300 cursor-pointer"
+          >
+            Decline
+          </button>
           <button 
             onClick={handleAccept} 
             className="text-[0.75rem] font-semibold uppercase tracking-[0.1em] bg-[#c9a96e] hover:bg-white text-black px-6 py-2.5 rounded-full transition-all duration-300 shadow-[0_4px_20px_rgba(201,169,110,0.15)] hover:shadow-[0_4px_20px_rgba(255,255,255,0.2)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"

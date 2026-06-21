@@ -28,7 +28,6 @@ const ViewHome = () => {
   return (
     <div className="flex flex-col gap-24 sm:gap-40 pb-20">
       <SEO
-        title="Digital Agency — Web, Mobile, Branding, AI & More"
         description="AVLANCE is your all-in-one digital partner. We build stunning websites, mobile apps, brand identities, and AI automation. Built fast, built right, supported for life."
         keywords="digital agency, web development, app development, branding, graphic design, AI automation, ERP solutions, AVLANCE"
       />

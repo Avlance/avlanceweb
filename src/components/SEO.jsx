@@ -3,12 +3,12 @@ import { useLocation } from 'react-router-dom';
 
 export default function SEO({ title, description, keywords, canonical, ogImage }) {
   const location = useLocation();
-  const defaultTitle = 'AVLANCE | Digital Agency';
-  const defaultDesc = 'Your all-in-one digital partner. Web, mobile, branding, AI automation & more. Lifetime support included.';
+  const defaultTitle = 'Avlance';
+  const defaultDesc = 'A elite freelance technical agency delivering custom web applications, mobile apps, and intelligent workflow automation. Built fast, built right, and supported for life.';
   
   useEffect(() => {
     // 1. Update Title
-    document.title = title ? `${title} | AVLANCE` : defaultTitle;
+    document.title = title ? `${title} — Avlance` : defaultTitle;
 
     // 2. Helper to set meta tags
     const updateMetaTag = (nameAttr, propertyAttr, value) => {
@@ -42,7 +42,7 @@ export default function SEO({ title, description, keywords, canonical, ogImage }
     }
 
     // Update Titles for OG/Twitter
-    const finalTitle = title ? `${title} | AVLANCE` : defaultTitle;
+    const finalTitle = title ? `${title} — Avlance` : defaultTitle;
     updateMetaTag(null, 'og:title', finalTitle);
     updateMetaTag(null, 'twitter:title', finalTitle);
 
