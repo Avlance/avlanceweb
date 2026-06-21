@@ -7,6 +7,10 @@ import ViewServices from './views/Services';
 import ViewAbout from './views/About';
 import ViewContact from './views/Contact';
 // import ViewWork from './views/Work'; // TODO: Uncomment when portfolio is ready to go live
+import ViewPrivacyPolicy from './views/PrivacyPolicy';
+import ViewTermsOfService from './views/TermsOfService';
+import CookieConsent from './components/CookieConsent';
+
 
 // --- SCROLL TO TOP ON ROUTE CHANGE --- //
 const ScrollToTop = () => {
@@ -139,6 +143,8 @@ export default function App() {
           {/* <Route path="/work" element={<ViewWork />} /> */}{/* TODO: Uncomment when portfolio is ready to go live */}
           <Route path="/about" element={<ViewAbout />} />
           <Route path="/contact" element={<ViewContact />} />
+          <Route path="/privacy-policy" element={<ViewPrivacyPolicy />} />
+          <Route path="/terms-of-service" element={<ViewTermsOfService />} />
         </Routes>
       </main>
 
@@ -176,14 +182,17 @@ export default function App() {
           </div>
 
           <div className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-neutral-900 text-xs text-neutral-600">
-            <p>© {new Date().getFullYear()} AVLANCE. All rights reserved.</p>
+            <p>© {new Date().getFullYear()} Avlance. All rights reserved.</p>
             <div className="flex gap-6 mt-4 sm:mt-0">
-              <a href="#" className="hover:text-[#c9a96e] transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-[#c9a96e] transition-colors">Terms of Service</a>
+              <Link to="/privacy-policy" className="hover:text-[#c9a96e] transition-colors">Privacy Policy</Link>
+              <Link to="/terms-of-service" className="hover:text-[#c9a96e] transition-colors">Terms of Service</Link>
             </div>
           </div>
         </div>
       </footer>
+
+      {/* Cookie Consent Banner */}
+      <CookieConsent />
     </div>
   );
 }
