@@ -115,7 +115,7 @@ const Preloader = ({ onComplete }) => {
         </div>
         <div className="flex flex-col items-center relative z-10">
           <img
-            src="./Logo.webp"
+            src="/Logo.webp"
             alt="AVLANCE"
             style={{
               height: '350px',
