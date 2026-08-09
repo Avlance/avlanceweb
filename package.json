@@ -8,7 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "indexnow": "node scripts/indexnow.js"
+    "indexnow": "node scripts/indexnow.cjs"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.2.2",
