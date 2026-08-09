@@ -1,71 +1,44 @@
-import { useEffect } from 'react';
+import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
 
-export default function SEO({ title, description, keywords, canonical, ogImage }) {
+export default function SEO({ 
+  title, 
+  description, 
+  keywords,
+  canonical,
+  ogImage = "https://avlance.studio/Logo.png"
+}) {
   const location = useLocation();
-  const defaultTitle = 'Avlance';
-  const defaultDesc = 'A elite freelance technical agency delivering custom web applications, mobile apps, and intelligent workflow automation. Built fast, built right, and supported for life.';
+  const defaultTitle = "Avlance | Built to scale, Built to Last";
+  const defaultDesc = "AVLANCE is your all-in-one digital partner. From stunning websites and mobile apps to bold branding, smart automation, and AI-powered solutions — built fast, built right, maintained for life.";
   
-  useEffect(() => {
-    // 1. Update Title
-    document.title = title ? `${title} — Avlance` : defaultTitle;
+  const finalTitle = title ? `${title} — Avlance` : defaultTitle;
+  const finalDesc = description || defaultDesc;
+  const finalCanonical = canonical || `https://avlance.studio${location.pathname}`;
 
-    // 2. Helper to set meta tags
-    const updateMetaTag = (nameAttr, propertyAttr, value) => {
-      if (!value) return;
-      
-      let selector = '';
-      if (nameAttr) {
-        selector = `meta[name="${nameAttr}"]`;
-      } else if (propertyAttr) {
-        selector = `meta[property="${propertyAttr}"]`;
-      }
+  return (
+    <Helmet>
+      {/* Standard SEO */}
+      <title>{finalTitle}</title>
+      <meta name="description" content={finalDesc} />
+      {keywords && <meta name="keywords" content={keywords} />}
+      <link rel="canonical" href={finalCanonical} />
 
-      let tag = document.querySelector(selector);
-      if (!tag) {
-        tag = document.createElement('meta');
-        if (nameAttr) tag.setAttribute('name', nameAttr);
-        if (propertyAttr) tag.setAttribute('property', propertyAttr);
-        document.head.appendChild(tag);
-      }
-      tag.setAttribute('content', value);
-    };
+      {/* Open Graph / Facebook */}
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={finalCanonical} />
+      <meta property="og:title" content={finalTitle} />
+      <meta property="og:description" content={finalDesc} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:site_name" content="AVLANCE" />
 
-    // Update Meta Description
-    updateMetaTag('description', null, description || defaultDesc);
-    updateMetaTag(null, 'og:description', description || defaultDesc);
-    updateMetaTag(null, 'twitter:description', description || defaultDesc);
-
-    // Update Keywords
-    if (keywords) {
-      updateMetaTag('keywords', null, keywords);
-    }
-
-    // Update Titles for OG/Twitter
-    const finalTitle = title ? `${title} — Avlance` : defaultTitle;
-    updateMetaTag(null, 'og:title', finalTitle);
-    updateMetaTag(null, 'twitter:title', finalTitle);
-
-    // Update OG Image
-    if (ogImage) {
-      updateMetaTag(null, 'og:image', ogImage);
-      updateMetaTag(null, 'twitter:image', ogImage);
-    }
-
-    // Update Canonical URL
-    const finalCanonical = canonical || `https://avlance.studio${location.pathname}`;
-    let canonicalTag = document.querySelector('link[rel="canonical"]');
-    if (!canonicalTag) {
-      canonicalTag = document.createElement('link');
-      canonicalTag.setAttribute('rel', 'canonical');
-      document.head.appendChild(canonicalTag);
-    }
-    canonicalTag.setAttribute('href', finalCanonical);
-
-    // Update Open Graph URL
-    updateMetaTag(null, 'og:url', finalCanonical);
-
-  }, [title, description, keywords, canonical, ogImage, location.pathname]);
-
-  return null;
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@avlance_studio" />
+      <meta name="twitter:title" content={finalTitle} />
+      <meta name="twitter:description" content={finalDesc} />
+      <meta name="twitter:image" content={ogImage} />
+    </Helmet>
+  );
 }
