@@ -6,7 +6,7 @@ import ViewHome from './views/Home';
 import ViewServices from './views/Services';
 import ViewAbout from './views/About';
 import ViewContact from './views/Contact';
-// import ViewWork from './views/Work'; // TODO: Uncomment when portfolio is ready to go live
+import ViewWork from './views/Work';
 import ViewPrivacyPolicy from './views/PrivacyPolicy';
 import ViewTermsOfService from './views/TermsOfService';
 import CookieConsent from './components/CookieConsent';
@@ -23,7 +23,7 @@ const ScrollToTop = () => {
 const navLinks = [
   { path: '/', label: 'Home' },
   { path: '/services', label: 'Services' },
-  // { path: '/work', label: 'Work' }, // TODO: Uncomment when portfolio is ready to go live
+  { path: '/work', label: 'Work' },
   { path: '/about', label: 'About' },
   { path: '/contact', label: 'Contact' }
 ];
@@ -140,7 +140,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<ViewHome />} />
           <Route path="/services" element={<ViewServices />} />
-          {/* <Route path="/work" element={<ViewWork />} /> */}{/* TODO: Uncomment when portfolio is ready to go live */}
+          <Route path="/work" element={<ViewWork />} />
           <Route path="/about" element={<ViewAbout />} />
           <Route path="/contact" element={<ViewContact />} />
           <Route path="/privacy-policy" element={<ViewPrivacyPolicy />} />

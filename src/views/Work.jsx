@@ -5,6 +5,7 @@ import FadeIn from '../components/FadeIn';
 import SectionLabel from '../components/SectionLabel';
 import ButtonPrimary from '../components/ButtonPrimary';
 import ButtonGhost from '../components/ButtonGhost';
+import SEO from '../components/SEO';
 import portfolioData from '../data/portfolio';
 
 // All unique categories for the filter
@@ -19,6 +20,11 @@ const ViewWork = () => {
 
   return (
     <div className="flex flex-col gap-20 sm:gap-32 pb-20">
+      <SEO
+        title="Our Work"
+        description="Real projects, real results. Browse the client work built by AVLANCE — from interior design platforms to custom web applications."
+        keywords="portfolio, client work, web design projects, AVLANCE portfolio"
+      />
 
       {/* Header */}
       <section className="pt-40 relative">
@@ -89,9 +95,17 @@ const ViewWork = () => {
                       </h2>
                       <p className="text-xs text-neutral-500 uppercase tracking-widest">{project.industry}</p>
                     </div>
-                    <div className="w-10 h-10 rounded-full border border-neutral-800 group-hover:border-[#c9a96e]/50 flex items-center justify-center text-neutral-600 group-hover:text-[#c9a96e] transition-all shrink-0 mt-1">
-                      <ArrowUpRight className="w-4 h-4" />
-                    </div>
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-10 h-10 rounded-full border border-neutral-800 group-hover:border-[#c9a96e]/50 flex items-center justify-center text-neutral-600 group-hover:text-[#c9a96e] transition-all shrink-0 mt-1 hover:scale-110"
+                        title="Visit live site"
+                      >
+                        <ArrowUpRight className="w-4 h-4" />
+                      </a>
+                    )}
                   </div>
 
                   <p className="text-sm text-neutral-400 leading-relaxed mb-6">{project.summary}</p>
@@ -106,10 +120,22 @@ const ViewWork = () => {
                   </div>
 
                   {/* Result callout */}
-                  <div className="flex items-start gap-3 p-4 rounded-2xl bg-neutral-900/50 border border-neutral-800 group-hover:border-[#c9a96e]/20 transition-colors">
+                  <div className="flex items-start gap-3 p-4 rounded-2xl bg-neutral-900/50 border border-neutral-800 group-hover:border-[#c9a96e]/20 transition-colors mb-5">
                     <span className="text-[#c9a96e] text-lg leading-none mt-0.5">✦</span>
                     <p className="text-sm text-neutral-300 leading-relaxed italic">"{project.result}"</p>
                   </div>
+
+                  {/* Live site button */}
+                  {project.liveUrl && (
+                    <a
+                      href={project.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-xs font-medium tracking-wide uppercase text-[#c9a96e] border border-[#c9a96e]/30 hover:border-[#c9a96e] hover:bg-[#c9a96e]/10 px-4 py-2.5 rounded-full transition-all duration-300"
+                    >
+                      View Live Site <ArrowUpRight className="w-3.5 h-3.5" />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
