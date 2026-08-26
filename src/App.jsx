@@ -32,7 +32,9 @@ const navLinks = [
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => {
+    return !sessionStorage.getItem('hasSeenPreloader');
+  });
   const location = useLocation();
 
   useEffect(() => {
@@ -48,7 +50,10 @@ export default function App() {
     return () => { document.body.style.overflow = ''; };
   }, [loading]);
 
-  const handlePreloaderComplete = useCallback(() => setLoading(false), []);
+  const handlePreloaderComplete = useCallback(() => {
+    sessionStorage.setItem('hasSeenPreloader', 'true');
+    setLoading(false);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#050505] text-neutral-100 font-sans selection:bg-[#c9a96e] selection:text-black overflow-x-hidden">
@@ -174,7 +179,7 @@ export default function App() {
               </div>
               <div className="flex flex-col gap-4">
                 <h4 className="text-xs uppercase tracking-[0.1em] text-[#c9a96e] font-medium mb-2">Social</h4>
-                <a href="#" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">LinkedIn</a>
+                <a href="https://www.linkedin.com/company/avlance-studio" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">LinkedIn</a>
                 <a href="https://www.instagram.com/avlance" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">Instagram</a>
                 <a href="https://x.com/avlance_studio" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">X (Twitter)</a>
               </div>

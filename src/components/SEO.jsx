@@ -10,7 +10,7 @@ export default function SEO({
   ogImage = "https://avlance.studio/Logo.png"
 }) {
   const location = useLocation();
-  const defaultTitle = "Avlance | Built to scale, Built to Last";
+  const defaultTitle = "AVLANCE — Digital Agency | Web Development, Apps, Branding & AI Automation";
   const defaultDesc = "AVLANCE is your all-in-one digital partner. From stunning websites and mobile apps to bold branding, smart automation, and AI-powered solutions — built fast, built right, maintained for life.";
   
   const finalTitle = title ? `${title} — Avlance` : defaultTitle;
@@ -32,6 +32,7 @@ export default function SEO({
       <meta property="og:description" content={finalDesc} />
       <meta property="og:image" content={ogImage} />
       <meta property="og:site_name" content="AVLANCE" />
+      <meta property="og:locale" content="en_US" />
 
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />

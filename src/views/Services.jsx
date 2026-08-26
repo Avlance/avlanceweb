@@ -45,7 +45,7 @@ const ViewServices = () => {
             {/* Service Image */}
             {s.img && (
               <div className="absolute top-0 right-0 w-[65%] h-full hidden lg:block pointer-events-none">
-                <img src={s.img} alt="" loading="lazy" className="w-full h-full object-cover opacity-[0.25] group-hover:opacity-[0.5] transition-opacity duration-700" />
+                <img src={s.img} alt={`${s.title} — AVLANCE`} loading="lazy" className="w-full h-full object-cover opacity-[0.25] group-hover:opacity-[0.5] transition-opacity duration-700" />
                 <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
               </div>
             )}

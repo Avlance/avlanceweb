@@ -18,6 +18,9 @@ const ViewAbout = () => {
       <div className="absolute top-0 right-[20%] w-[500px] h-[500px] bg-[#c9a96e]/10 blur-[120px] rounded-full pointer-events-none -z-10" />
       <FadeIn>
         <SectionLabel>About Us</SectionLabel>
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-medium tracking-tight leading-[1.1] mb-8 max-w-4xl">
+          The team behind your next digital breakthrough.
+        </h1>
       </FadeIn>
       <div className="mt-16 grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
         {/* why-left */}

@@ -64,7 +64,7 @@ export default function ViewTermsOfService() {
             <section>
               <h2 className="text-xl md:text-2xl text-[#c9a96e] font-garamond font-medium mb-3">7. Governing Law</h2>
               <p>
-                These Terms of Service and any separate agreements shall be governed by and construed in accordance with the laws of [Governing Law State/Country], without regard to conflict of law principles.
+                These Terms of Service and any separate agreements shall be governed by and construed in accordance with the laws of India, without regard to conflict of law principles.
               </p>
             </section>
 
@@ -74,7 +74,7 @@ export default function ViewTermsOfService() {
                 For questions, clarifications, or support regarding our terms, please contact:
               </p>
               <p className="mt-3">
-                <strong>Email:</strong> <a href="mailto:[Contact Email]" className="text-[#c9a96e] hover:underline">[Contact Email]</a>
+                <strong>Email:</strong> <a href="mailto:office@avlance.studio" className="text-[#c9a96e] hover:underline">office@avlance.studio</a>
               </p>
             </section>
           </div>

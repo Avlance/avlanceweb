@@ -74,7 +74,7 @@ export default function ViewPrivacyPolicy() {
                 If you have any questions or concerns regarding this Privacy Policy, please reach out to us:
               </p>
               <p className="mt-3">
-                <strong>Email:</strong> <a href="mailto:[Contact Email]" className="text-[#c9a96e] hover:underline">[Contact Email]</a>
+                <strong>Email:</strong> <a href="mailto:office@avlance.studio" className="text-[#c9a96e] hover:underline">office@avlance.studio</a>
               </p>
             </section>
           </div>
