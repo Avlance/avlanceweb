@@ -33,7 +33,10 @@ export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(() => {
-    return !sessionStorage.getItem('hasSeenPreloader');
+    if (typeof window !== 'undefined') {
+      return !sessionStorage.getItem('hasSeenPreloader');
+    }
+    return false;
   });
   const location = useLocation();
 
