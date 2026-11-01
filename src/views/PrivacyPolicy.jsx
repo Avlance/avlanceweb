@@ -5,10 +5,7 @@ import FadeIn from '../components/FadeIn';
 export default function ViewPrivacyPolicy() {
   return (
     <div className="pt-40 pb-20 max-w-4xl mx-auto">
-      <SEO 
-        title="Privacy Policy" 
-        description="Privacy Policy for Avlance - detailing how we collect, store, and protect your information." 
-      />
+      <SEO />
       <FadeIn>
         <div className="prose prose-invert max-w-none">
           <h1 className="text-4xl md:text-5xl font-garamond text-white font-medium mb-4">Privacy Policy</h1>

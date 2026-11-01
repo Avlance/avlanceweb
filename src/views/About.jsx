@@ -9,11 +9,7 @@ import SEO from '../components/SEO';
 const ViewAbout = () => {
   return (
     <div className="flex flex-col gap-24 sm:gap-40 pb-20">
-      <SEO 
-        title="About Us — Independent Freelance Studio & Digital Partner"
-        description="Learn more about AVLANCE. We are a dedicated freelance studio partnering directly with businesses to build high-performing websites, mobile apps, automation, and brand identities with lifetime maintenance."
-        keywords="about AVLANCE, digital agency, freelancers, web development team, app designers"
-      />
+      <SEO />
       <section className="pt-40 relative">
       <div className="absolute top-0 right-[20%] w-[500px] h-[500px] bg-[#c9a96e]/10 blur-[120px] rounded-full pointer-events-none -z-10" />
       <FadeIn>
@@ -67,7 +63,7 @@ const ViewAbout = () => {
               <div className="py-8 border-b border-neutral-800 first:border-t grid grid-cols-[40px_1fr] md:grid-cols-[60px_1fr] gap-6 items-start hover:pl-3 transition-all duration-400 cursor-default">
                 <span className="font-mono text-xs text-[#c9a96e] opacity-60 mt-1">{item.num}</span>
                 <div>
-                  <h4 className="text-[1.1rem] font-medium font-sans uppercase tracking-[0.1em] mb-2 text-white" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{item.title}</h4>
+                  <h3 className="text-[1.1rem] font-medium font-sans uppercase tracking-[0.1em] mb-2 text-white" style={{ fontFamily: "'Barlow Condensed', sans-serif" }}>{item.title}</h3>
                   <p className="text-sm text-neutral-400 leading-[1.8]">{item.text}</p>
                 </div>
               </div>
@@ -89,11 +85,11 @@ const ViewAbout = () => {
       <FadeIn>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-neutral-900/40 border border-[#c9a96e]/20 hover:border-[#c9a96e]/50 transition-colors p-10 rounded-3xl group">
-            <h4 className="text-xs tracking-widest uppercase text-[#c9a96e] mb-6">Our Mission</h4>
+            <h2 className="text-xs tracking-widest uppercase text-[#c9a96e] mb-6">Our Mission</h2>
             <p className="text-xl sm:text-2xl font-medium leading-relaxed group-hover:text-white transition-colors text-neutral-300">To empower businesses worldwide with complete digital solutions — built fast, built right, and supported for life.</p>
           </div>
           <div className="bg-neutral-900/40 border border-[#c9a96e]/20 hover:border-[#c9a96e]/50 transition-colors p-10 rounded-3xl group">
-            <h4 className="text-xs tracking-widest uppercase text-[#c9a96e] mb-6">Our Vision</h4>
+            <h2 className="text-xs tracking-widest uppercase text-[#c9a96e] mb-6">Our Vision</h2>
             <p className="text-xl sm:text-2xl font-medium leading-relaxed group-hover:text-white transition-colors text-neutral-300">To be the last digital agency your business ever needs — a partner that grows with you at every stage.</p>
           </div>
         </div>
@@ -112,7 +108,7 @@ const ViewAbout = () => {
             { title: 'Client-first thinking', desc: "Your goals drive every decision we make. We don't push solutions — we find what genuinely fits." }
           ].map((val, i) => (
             <div key={i} className="border border-neutral-800 hover:border-[#c9a96e]/40 rounded-2xl p-8 bg-black transition-colors">
-              <h4 className="text-base font-medium mb-3 text-white">{val.title}</h4>
+              <h3 className="text-base font-medium mb-3 text-white">{val.title}</h3>
               <p className="text-sm text-neutral-500 leading-relaxed">{val.desc}</p>
             </div>
           ))}
@@ -139,7 +135,7 @@ const ViewAbout = () => {
           <div className="absolute inset-0 bg-gradient-to-b from-[#c9a96e]/5 to-transparent pointer-events-none" />
           <h2 className="text-2xl sm:text-3xl font-medium mb-4 relative z-10">Like what you see? Let's build something together.</h2>
           <p className="text-neutral-400 text-sm sm:text-base max-w-xl mx-auto mb-8 relative z-10">We'd love to hear about your project — big, small, or still just an idea.</p>
-          <div className="relative z-10"><Link to="/contact"><ButtonPrimary>Start a Conversation</ButtonPrimary></Link></div>
+          <div className="relative z-10"><Link to="/contact/"><ButtonPrimary>Start a Conversation</ButtonPrimary></Link></div>
           <p className="text-xs text-neutral-500 mt-5 relative z-10">We respond within 24 hours, every time.</p>
         </div>
       </FadeIn>

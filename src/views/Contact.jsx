@@ -42,12 +42,8 @@ const ViewContact = () => {
 
   return (
     <div className="flex flex-col gap-20 sm:gap-32 pb-20">
-      <SEO 
-        title="Contact Us — Start Your Project"
-        description="Get in touch with AVLANCE. Fill in our contact form, email us, or chat on WhatsApp. We respond within 24 hours with custom recommendations."
-        keywords="contact AVLANCE, hire digital agency, freelance web developers, get a quote"
-      />
-      {/* FAQPage structured data for Google rich results */}
+      <SEO />
+      {/* FAQ structured data mirrors the visible questions; rich results are not guaranteed. */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify({
@@ -82,7 +78,7 @@ const ViewContact = () => {
               { t: 'Globally available', d: 'We work across time zones and serve clients from every corner of the world.' }
             ].map((p, i) => (
               <div key={i} className="border-l border-[#c9a96e]/40 pl-5">
-                <h4 className="text-sm font-medium mb-2 text-[#c9a96e]">{p.t}</h4>
+                <h2 className="text-sm font-medium mb-2 text-[#c9a96e]">{p.t}</h2>
                 <p className="text-xs text-neutral-500 leading-relaxed">{p.d}</p>
               </div>
             ))}
@@ -177,7 +173,7 @@ const ViewContact = () => {
 
         <div className="lg:col-span-5 flex flex-col gap-12">
           <FadeIn delay={200}>
-            <h3 className="text-xl font-medium mb-6">Direct contact</h3>
+            <h2 className="text-xl font-medium mb-6">Direct contact</h2>
             <div className="flex flex-col gap-4">
               {[
                 { icon: <Mail className="w-4 h-4" />, type: 'Email', val: 'office@avlance.studio', note: 'Best for detailed enquiries', href: 'mailto:office@avlance.studio' },
@@ -206,11 +202,13 @@ const ViewContact = () => {
           </FadeIn>
 
           <FadeIn delay={300}>
-            <h3 className="text-xl font-medium mb-6">Questions before reaching out?</h3>
+            <h2 className="text-xl font-medium mb-6">Questions before reaching out?</h2>
             <div className="flex flex-col border-t border-neutral-900">
               {faqs.map((faq, i) => (
                 <div key={i} className="border-b border-neutral-900">
                   <button
+                    aria-expanded={openFaq === i}
+                    aria-controls={`faq-${i}`}
                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
                     className="w-full text-left py-5 flex items-center justify-between gap-4 group"
                   >
@@ -219,7 +217,7 @@ const ViewContact = () => {
                       {openFaq === i ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                     </span>
                   </button>
-                  <div className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div id={`faq-${i}`} aria-hidden={openFaq !== i} className={`overflow-hidden transition-all duration-300 ease-in-out ${openFaq === i ? 'max-h-40 pb-5 opacity-100' : 'max-h-0 opacity-0'}`}>
                     <p className="text-sm text-neutral-500 leading-relaxed pr-8">{faq.a}</p>
                   </div>
                 </div>

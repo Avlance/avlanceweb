@@ -5,10 +5,7 @@ import FadeIn from '../components/FadeIn';
 export default function ViewTermsOfService() {
   return (
     <div className="pt-40 pb-20 max-w-4xl mx-auto">
-      <SEO 
-        title="Terms of Service" 
-        description="Terms of Service for Avlance - outlining project terms, intellectual property, payments, and agency regulations." 
-      />
+      <SEO />
       <FadeIn>
         <div className="prose prose-invert max-w-none">
           <h1 className="text-4xl md:text-5xl font-garamond text-white font-medium mb-4">Terms of Service</h1>

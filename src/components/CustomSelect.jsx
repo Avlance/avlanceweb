@@ -72,6 +72,7 @@ const CustomSelect = ({ name, required, options, placeholder, label, hint }) => 
       {/* Hidden native input for form submission */}
       <input
         type="text"
+        aria-label={label}
         name={name}
         value={selected}
         onChange={() => {}}
@@ -84,6 +85,9 @@ const CustomSelect = ({ name, required, options, placeholder, label, hint }) => 
       <div
         ref={triggerRef}
         role="combobox"
+        aria-label={label}
+        aria-required={required}
+        aria-activedescendant={isOpen && focusedIndex >= 0 ? `service-option-${focusedIndex}` : undefined}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
         aria-controls="custom-select-list"
@@ -108,12 +112,15 @@ const CustomSelect = ({ name, required, options, placeholder, label, hint }) => 
       <div
         id="custom-select-list"
         role="listbox"
+        aria-label={label}
+        aria-hidden={!isOpen}
         className={`absolute left-0 top-full mt-2 w-full bg-[#0a0a0a] border border-neutral-800 rounded-xl overflow-hidden shadow-2xl z-50 transition-all duration-300 origin-top ${isOpen ? 'opacity-100 scale-y-100' : 'opacity-0 scale-y-95 pointer-events-none'}`}
       >
         <div className="max-h-60 overflow-y-auto">
           {options.map((opt, i) => (
             <div
               key={i}
+              id={`service-option-${i}`}
               role="option"
               aria-selected={selected === opt.value}
               className={`px-4 py-3 text-sm cursor-pointer transition-colors hover:bg-neutral-800/50 ${selected === opt.value ? 'text-[#c9a96e] bg-[#c9a96e]/10' : 'text-neutral-300'} ${focusedIndex === i ? 'bg-neutral-800/70 outline-none ring-1 ring-[#c9a96e]/30' : ''}`}

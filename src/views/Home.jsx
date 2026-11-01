@@ -12,30 +12,11 @@ import SEO from '../components/SEO';
 
 // --- HOME VIEW --- //
 const ViewHome = () => {
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "AVLANCE",
-    "url": "https://avlance.studio",
-    "logo": "https://avlance.studio/Logo.webp",
-    "description": "AVLANCE is your all-in-one digital partner. From stunning websites and mobile apps to bold branding, smart automation, and AI-powered solutions.",
-    "sameAs": [
-      "https://www.instagram.com/avlance",
-      "https://x.com/avlance_studio"
-    ]
-  };
 
   return (
     <div className="flex flex-col gap-24 sm:gap-40 pb-20">
-      <SEO
-        description="AVLANCE is your all-in-one digital partner. We build stunning websites, mobile apps, brand identities, and AI automation. Built fast, built right, supported for life."
-        keywords="digital agency, web development, app development, branding, graphic design, AI automation, ERP solutions, AVLANCE"
-      />
+      <SEO />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-      />
 
 
       {/* Hero */}
@@ -54,12 +35,12 @@ const ViewHome = () => {
               AVLANCE is your all-in-one digital partner — from stunning websites and mobile apps to bold branding, smart automation, and AI-powered solutions. We don't just build for today. We build, grow, and maintain your digital presence for the long run.
             </p>
             <div className="flex flex-wrap items-center gap-4">
-              <Link to="/contact">
+              <Link to="/contact/">
                 <ButtonPrimary>
                   Let's Build It <ArrowRight className="w-4 h-4" />
                 </ButtonPrimary>
               </Link>
-              <Link to="/services">
+              <Link to="/services/">
                 <ButtonGhost>
                   Explore Capabilities
                 </ButtonGhost>
@@ -81,7 +62,7 @@ const ViewHome = () => {
             ].map((item, i) => (
               <div key={i} className="bg-black p-8 sm:p-10 group hover:bg-neutral-900 transition-colors">
                 <div className="text-[#c9a96e] mb-6">{item.icon}</div>
-                <h3 className="text-base font-medium mb-3">{item.title}</h3>
+                <h2 className="text-base font-medium mb-3">{item.title}</h2>
                 <p className="text-sm text-neutral-400 leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -114,7 +95,7 @@ const ViewHome = () => {
               <div key={i} className="flex gap-6 items-start group">
                 <span className="text-sm font-mono text-[#c9a96e] mt-1">{usp.num}</span>
                 <div>
-                  <h4 className="text-lg font-medium mb-2 group-hover:text-[#c9a96e] transition-colors">{usp.title}</h4>
+                  <h3 className="text-lg font-medium mb-2 group-hover:text-[#c9a96e] transition-colors">{usp.title}</h3>
                   <p className="text-neutral-500 text-sm leading-relaxed">{usp.desc}</p>
                 </div>
               </div>
@@ -132,7 +113,7 @@ const ViewHome = () => {
 
           <div className="flex flex-wrap gap-3">
             {servicesData.filter(s => !s.isCustom).map((s, i) => (
-              <Link key={i} to="/services" className="text-left px-5 py-4 rounded-2xl border border-neutral-800 hover:border-[#c9a96e] bg-neutral-900/30 hover:bg-[#c9a96e]/5 transition-all group">
+              <Link key={i} to={`/services/#service-${s.id}`} className="text-left px-5 py-4 rounded-2xl border border-neutral-800 hover:border-[#c9a96e] bg-neutral-900/30 hover:bg-[#c9a96e]/5 transition-all group">
                 <span className="block text-sm font-medium text-white group-hover:text-[#c9a96e] transition-colors mb-1">{s.title}</span>
                 <span className="block text-xs text-neutral-500 line-clamp-1">{s.tagline}</span>
               </Link>
@@ -155,7 +136,7 @@ const ViewHome = () => {
               <div key={i} className="flex gap-6 p-6 rounded-2xl border border-neutral-900 bg-neutral-950/50 hover:border-[#c9a96e]/50 transition-colors">
                 <span className="text-xl font-light text-[#c9a96e]">{step.num}</span>
                 <div>
-                  <h4 className="text-base font-medium mb-2">{step.title}</h4>
+                  <h3 className="text-base font-medium mb-2">{step.title}</h3>
                   <p className="text-neutral-500 text-sm leading-relaxed">{step.desc}</p>
                 </div>
               </div>
@@ -186,8 +167,8 @@ const ViewHome = () => {
             <h2 className="text-3xl sm:text-5xl font-medium tracking-tight mb-4 relative z-10">Ready to build something great?</h2>
             <p className="text-neutral-400 text-lg max-w-xl mx-auto mb-10 relative z-10">Tell us your vision. We'll handle everything — from first pixel to lifetime support.</p>
             <div className="flex flex-wrap justify-center gap-4 relative z-10">
-              <Link to="/contact"><ButtonPrimary>Let's Build It</ButtonPrimary></Link>
-              <Link to="/contact"><ButtonGhost>Contact Us Directly</ButtonGhost></Link>
+              <Link to="/contact/"><ButtonPrimary>Let's Build It</ButtonPrimary></Link>
+              <Link to="/contact/"><ButtonGhost>Contact Us Directly</ButtonGhost></Link>
             </div>
             <p className="text-xs text-[#c9a96e]/70 mt-6 relative z-10">We respond within 24 hours. Available globally.</p>
           </div>

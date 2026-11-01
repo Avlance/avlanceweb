@@ -20,11 +20,7 @@ const ViewWork = () => {
 
   return (
     <div className="flex flex-col gap-20 sm:gap-32 pb-20">
-      <SEO
-        title="Our Work"
-        description="Real projects, real results. Browse the client work built by AVLANCE — from interior design platforms to custom web applications."
-        keywords="portfolio, client work, web design projects, AVLANCE portfolio"
-      />
+      <SEO />
 
       {/* Header */}
       <section className="pt-40 relative">
@@ -48,6 +44,7 @@ const ViewWork = () => {
               <button
                 key={cat}
                 onClick={() => setActiveFilter(cat)}
+                aria-pressed={activeFilter === cat}
                 className={`px-5 py-2.5 rounded-full text-xs font-medium tracking-wide transition-all duration-300 border ${
                   activeFilter === cat
                     ? 'bg-[#c9a96e] text-black border-[#c9a96e]'
@@ -61,7 +58,7 @@ const ViewWork = () => {
 
           {/* Project Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {filtered.map((project, index) => (
+            {filtered.map((project) => (
               <div
                 key={project.id}
                 className="group relative border border-neutral-800 hover:border-[#c9a96e]/50 rounded-3xl overflow-hidden bg-black transition-all duration-500 hover:shadow-[0_0_60px_rgba(201,169,110,0.08)]"
@@ -70,7 +67,8 @@ const ViewWork = () => {
                 <div className="relative h-64 overflow-hidden">
                   <img
                     src={project.img}
-                    alt={project.title}
+                    alt={`${project.title} website — ${project.industry.toLowerCase()} project by AVLANCE`}
+                    decoding="async"
                     loading="lazy"
                     className="w-full h-full object-cover opacity-40 group-hover:opacity-60 group-hover:scale-105 transition-all duration-700"
                   />
@@ -102,6 +100,7 @@ const ViewWork = () => {
                         rel="noopener noreferrer"
                         className="w-10 h-10 rounded-full border border-neutral-800 group-hover:border-[#c9a96e]/50 flex items-center justify-center text-neutral-600 group-hover:text-[#c9a96e] transition-all shrink-0 mt-1 hover:scale-110"
                         title="Visit live site"
+                        aria-label={`Visit ${project.title} website (opens in a new tab)`}
                       >
                         <ArrowUpRight className="w-4 h-4" />
                       </a>
@@ -163,8 +162,8 @@ const ViewWork = () => {
               Tell us your goal. We'll build you a plan — no cost, no pressure.
             </p>
             <div className="flex flex-wrap justify-center gap-4 relative z-10">
-              <Link to="/contact"><ButtonPrimary>Start a Project</ButtonPrimary></Link>
-              <Link to="/services"><ButtonGhost>View Our Services</ButtonGhost></Link>
+              <Link to="/contact/"><ButtonPrimary>Start a Project</ButtonPrimary></Link>
+              <Link to="/services/"><ButtonGhost>View Our Services</ButtonGhost></Link>
             </div>
           </div>
         </FadeIn>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useSyncExternalStore } from 'react';
 import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import Preloader from './components/Preloader';
 import ButtonPrimary from './components/ButtonPrimary';
@@ -10,43 +10,54 @@ import ViewWork from './views/Work';
 import ViewPrivacyPolicy from './views/PrivacyPolicy';
 import ViewTermsOfService from './views/TermsOfService';
 import CookieConsent from './components/CookieConsent';
+import NotFound from './views/NotFound';
+import { pages, normalizePath } from './data/site';
+
+const views = { Home: ViewHome, Services: ViewServices, Work: ViewWork, About: ViewAbout, Contact: ViewContact, PrivacyPolicy: ViewPrivacyPolicy, TermsOfService: ViewTermsOfService };
+const subscribe = () => () => {};
+const clientReady = () => true;
+const serverReady = () => false;
 
 
 // --- SCROLL TO TOP ON ROUTE CHANGE --- //
 const ScrollToTop = () => {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  const { pathname, hash } = useLocation();
+  useEffect(() => {
+    const target = hash && document.getElementById(hash.slice(1));
+    if (target) target.scrollIntoView();
+    else window.scrollTo(0, 0);
+  }, [pathname, hash]);
   return null;
 };
 
 // --- NAV LINKS --- //
 const navLinks = [
   { path: '/', label: 'Home' },
-  { path: '/services', label: 'Services' },
-  { path: '/work', label: 'Work' },
-  { path: '/about', label: 'About' },
-  { path: '/contact', label: 'Contact' }
+  { path: '/services/', label: 'Services' },
+  { path: '/work/', label: 'Work' },
+  { path: '/about/', label: 'About' },
+  { path: '/contact/', label: 'Contact' }
 ];
 
 // --- MAIN APP --- //
 export default function App() {
   const [isScrolled, setIsScrolled] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [loading, setLoading] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return !sessionStorage.getItem('hasSeenPreloader');
-    }
-    return false;
-  });
+  const [menu, setMenu] = useState({ locationKey: null, open: false });
+  const hydrated = useSyncExternalStore(subscribe, clientReady, serverReady);
+  const [preloaderDone, setPreloaderDone] = useState(false);
+  const loading = hydrated && !preloaderDone && !sessionStorage.getItem('hasSeenPreloader');
   const location = useLocation();
+  // Reset route-specific UI before painting the next page, including history navigation.
+  if (menu.locationKey !== location.key) {
+    setMenu({ locationKey: location.key, open: false });
+  }
+  const mobileMenuOpen = menu.locationKey === location.key && menu.open;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useLayoutEffect(() => { setMobileMenuOpen(false); }, [location.pathname]);
 
   useEffect(() => {
     document.body.style.overflow = loading ? 'hidden' : '';
@@ -55,7 +66,7 @@ export default function App() {
 
   const handlePreloaderComplete = useCallback(() => {
     sessionStorage.setItem('hasSeenPreloader', 'true');
-    setLoading(false);
+    setPreloaderDone(true);
   }, []);
 
   return (
@@ -89,10 +100,10 @@ export default function App() {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`text-[0.75rem] font-medium uppercase tracking-[0.15em] transition-colors hover:text-[#c9a96e] relative ${location.pathname === link.path ? 'text-[#c9a96e]' : 'text-white'}`}
+                className={`text-[0.75rem] font-medium uppercase tracking-[0.15em] transition-colors hover:text-[#c9a96e] relative ${normalizePath(location.pathname) === link.path ? 'text-[#c9a96e]' : 'text-white'}`}
               >
                 {link.label}
-                {location.pathname === link.path && (
+                {normalizePath(location.pathname) === link.path && (
                   <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#c9a96e] rounded-full" />
                 )}
               </Link>
@@ -103,7 +114,7 @@ export default function App() {
           <div className="flex-1 flex justify-end">
             <div className="hidden md:block">
               <Link
-                to="/contact"
+                to="/contact/"
                 className={`text-[0.75rem] font-semibold uppercase tracking-[0.15em] px-6 py-3 rounded-[30px] transition-all duration-300 border ${isScrolled
                   ? 'bg-[#c9a96e] text-black border-[#c9a96e] hover:bg-transparent hover:text-[#c9a96e]'
                   : 'bg-transparent text-white border-transparent hover:text-[#c9a96e]'
@@ -115,7 +126,10 @@ export default function App() {
 
             <button
               className="md:hidden relative z-50 p-2 -mr-2 text-white hover:text-[#c9a96e] transition-colors"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              aria-label={mobileMenuOpen ? 'Close navigation' : 'Open navigation'}
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setMenu({ locationKey: location.key, open: !mobileMenuOpen })}
             >
               <div className="flex flex-col gap-1.5 w-6">
                 <span className={`h-px bg-current transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
@@ -128,31 +142,29 @@ export default function App() {
       </nav>
 
       {/* Mobile Menu Overlay */}
-      <div className={`fixed inset-0 bg-[#050505] z-40 transition-all duration-500 flex flex-col justify-center items-center gap-8 ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+      <div id="mobile-navigation" className={`fixed inset-0 bg-[#050505] z-40 transition-all duration-500 flex flex-col justify-center items-center gap-8 ${mobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
         {navLinks.map(link => (
           <Link
             key={link.path}
             to={link.path}
-            className={`text-3xl font-medium tracking-tight transition-colors hover:text-[#c9a96e] ${location.pathname === link.path ? 'text-[#c9a96e]' : 'text-white'}`}
+            className={`text-3xl font-medium tracking-tight transition-colors hover:text-[#c9a96e] ${normalizePath(location.pathname) === link.path ? 'text-[#c9a96e]' : 'text-white'}`}
           >
             {link.label}
           </Link>
         ))}
         <div className="mt-8">
-          <Link to="/contact"><ButtonPrimary>Let's Build It</ButtonPrimary></Link>
+          <Link to="/contact/"><ButtonPrimary>Let's Build It</ButtonPrimary></Link>
         </div>
       </div>
 
       {/* Main Content */}
       <main className="max-w-[1400px] mx-auto px-6 md:px-12 pt-12 min-h-[90vh]">
         <Routes>
-          <Route path="/" element={<ViewHome />} />
-          <Route path="/services" element={<ViewServices />} />
-          <Route path="/work" element={<ViewWork />} />
-          <Route path="/about" element={<ViewAbout />} />
-          <Route path="/contact" element={<ViewContact />} />
-          <Route path="/privacy-policy" element={<ViewPrivacyPolicy />} />
-          <Route path="/terms-of-service" element={<ViewTermsOfService />} />
+          {pages.map(({ path, view }) => {
+            const View = views[view];
+            return <Route key={path} path={path} element={<View />} />;
+          })}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
 
@@ -173,7 +185,7 @@ export default function App() {
 
             <div className="flex gap-16">
               <div className="flex flex-col gap-4">
-                <h4 className="text-xs uppercase tracking-[0.1em] text-[#c9a96e] font-medium mb-2">Company</h4>
+                <h2 className="text-xs uppercase tracking-[0.1em] text-[#c9a96e] font-medium mb-2">Company</h2>
                 {navLinks.map(link => (
                   <Link key={link.path} to={link.path} className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors text-left">
                     {link.label}
@@ -181,7 +193,7 @@ export default function App() {
                 ))}
               </div>
               <div className="flex flex-col gap-4">
-                <h4 className="text-xs uppercase tracking-[0.1em] text-[#c9a96e] font-medium mb-2">Social</h4>
+                <h2 className="text-xs uppercase tracking-[0.1em] text-[#c9a96e] font-medium mb-2">Social</h2>
                 <a href="https://www.linkedin.com/company/avlance-studio" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">LinkedIn</a>
                 <a href="https://www.instagram.com/avlance" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">Instagram</a>
                 <a href="https://x.com/avlance_studio" className="text-sm text-neutral-400 hover:text-[#c9a96e] transition-colors">X (Twitter)</a>
@@ -192,8 +204,8 @@ export default function App() {
           <div className="flex flex-col sm:flex-row justify-between items-center pt-8 border-t border-neutral-900 text-xs text-neutral-600">
             <p>© {new Date().getFullYear()} Avlance. All rights reserved.</p>
             <div className="flex gap-6 mt-4 sm:mt-0">
-              <Link to="/privacy-policy" className="hover:text-[#c9a96e] transition-colors">Privacy Policy</Link>
-              <Link to="/terms-of-service" className="hover:text-[#c9a96e] transition-colors">Terms of Service</Link>
+              <Link to="/privacy-policy/" className="hover:text-[#c9a96e] transition-colors">Privacy Policy</Link>
+              <Link to="/terms-of-service/" className="hover:text-[#c9a96e] transition-colors">Terms of Service</Link>
             </div>
           </div>
         </div>
